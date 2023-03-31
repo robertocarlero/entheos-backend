@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "hello-entheos-dev",
+    "dev": "hello-entheos-dev",
+    "prod": "hello-entheos"
+  }
+}

@@ -1,0 +1,33 @@
+stages:
+  - preprod
+  - production
+
+image: node:14-alpine
+
+cache:
+  paths:
+    - functions/node_modules/
+
+preprod:
+  stage: preprod
+  only:
+    - develop
+  before_script:
+    - cd functions
+    - npm i -g firebase-tools
+    - npm install
+  script:
+    - firebase use dev --token "$FIREBASE_DEPLOY_KEY"
+    - firebase deploy --token "$FIREBASE_DEPLOY_KEY" --non-interactive --only functions
+
+production:
+  stage: production
+  only:
+    - master
+  before_script:
+    - cd functions
+    - npm i -g firebase-tools
+    - npm install
+  script:
+    - firebase use prod --token "$FIREBASE_DEPLOY_KEY"
+    - firebase deploy --token "$FIREBASE_DEPLOY_KEY" --non-interactive --only functions
